@@ -43,7 +43,7 @@ export default function SignupPage() {
         router.push("/onboarding");
         router.refresh();
       } else {
-        setError("Check your email to confirm your account, or sign in with Google/Apple/GitHub below.");
+        setError("Check your email to confirm your account, or sign in with Google/Spotify below.");
         setLoading(false);
       }
     }
