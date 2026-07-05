@@ -24,9 +24,9 @@ function SpotifyIcon() {
 
 export function OAuthButtons({ redirectTo }: { redirectTo?: string }) {
   const supabase = createClient();
-  const redirectUrl = `${window.location.origin}/auth/callback${redirectTo ? `?next=${redirectTo}` : ""}`;
 
   async function signInWith(provider: "google" | "spotify") {
+    const redirectUrl = `${window.location.origin}/auth/callback${redirectTo ? `?next=${redirectTo}` : ""}`;
     await supabase.auth.signInWithOAuth({
       provider,
       options: {
