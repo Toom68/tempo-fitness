@@ -58,15 +58,6 @@ export function OAuthButtons({ redirectTo }: { redirectTo?: string }) {
         type="button"
         variant="outline"
         className="w-full gap-3"
-        onClick={() => signInWith("apple")}
-      >
-        <AppleIcon />
-        Continue with Apple
-      </Button>
-      <Button
-        type="button"
-        variant="outline"
-        className="w-full gap-3"
         onClick={() => signInWith("github")}
       >
         <GitHubIcon />
