@@ -8,7 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Trash2, Search, Dumbbell, ArrowLeft, Save, Check } from "lucide-react";
+import { Plus, Trash2, ArrowLeft, Save, Check } from "lucide-react";
+import { ExercisePicker } from "@/components/workout/exercise-picker";
 import type { Exercise } from "@/types";
 
 interface SetRow {
@@ -82,9 +83,7 @@ export default function EditWorkoutPage() {
     },
   });
 
-  const filteredExercises = allExercises?.filter((ex) =>
-    ex.name.toLowerCase().includes(search.toLowerCase())
-  ) ?? [];
+  const filteredExercises = allExercises ?? [];
 
   const addExercise = useCallback((exercise: Exercise) => {
     setExercises((prev) => [
@@ -237,28 +236,7 @@ export default function EditWorkoutPage() {
       ))}
 
       {showSearch ? (
-        <Card>
-          <CardHeader>
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input autoFocus placeholder="Search exercises..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
-            </div>
-          </CardHeader>
-          <CardContent className="max-h-64 overflow-y-auto">
-            {filteredExercises.length > 0 ? (
-              <div className="space-y-1">
-                {filteredExercises.map((ex) => (
-                  <button key={ex.id} onClick={() => addExercise(ex)} className="flex w-full items-center gap-3 rounded-md p-2 text-left hover:bg-accent">
-                    <Dumbbell className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">{ex.name}</span>
-                  </button>
-                ))}
-              </div>
-            ) : (
-              <p className="py-4 text-center text-sm text-muted-foreground">No exercises found</p>
-            )}
-          </CardContent>
-        </Card>
+        <ExercisePicker exercises={filteredExercises} onSelect={addExercise} />
       ) : (
         <Button variant="outline" className="w-full gap-2" onClick={() => setShowSearch(true)}>
           <Plus className="h-4 w-4" /> Add Exercise
