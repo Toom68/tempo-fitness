@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dumbbell, ArrowLeft } from "lucide-react";
+import { OAuthButtons } from "@/components/auth/oauth-buttons";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -36,8 +37,15 @@ export default function SignupPage() {
       setError(error.message);
       setLoading(false);
     } else {
-      router.push("/onboarding");
-      router.refresh();
+      // Check if session was created (email confirmation may be required)
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        router.push("/onboarding");
+        router.refresh();
+      } else {
+        setError("Check your email to confirm your account, or sign in with Google/Apple/GitHub below.");
+        setLoading(false);
+      }
     }
   }
 
@@ -95,6 +103,15 @@ export default function SignupPage() {
               {loading ? "Creating account..." : "Sign Up Free"}
             </Button>
           </form>
+          <div className="relative my-4">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">or</span>
+            </div>
+          </div>
+          <OAuthButtons redirectTo="/onboarding" />
           <p className="mt-4 text-center text-sm text-muted-foreground">
             Already have an account?{" "}
             <Link href="/login" className="font-medium text-foreground hover:underline">
